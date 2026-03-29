@@ -15,6 +15,8 @@
 
 ## What is this?
 
+[![SafeSkill 91/100](https://img.shields.io/badge/SafeSkill-91%2F100_Verified%20Safe-brightgreen)](https://safeskill.dev/scan/ethan-tsai-tsai-gemini-mcp-server)
+
 A local MCP server that wraps the [`gemini` CLI](https://github.com/google-gemini/gemini-cli), letting any MCP client (Claude Code, Cursor, etc.) offload expensive tasks to Gemini 2.5 Pro's massive context window.
 
 **Use cases:**
