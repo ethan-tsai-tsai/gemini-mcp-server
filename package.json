@@ -1,7 +1,11 @@
 {
-  "name": "gemini-mcp-server",
+  "name": "@ethantsaitsai/gemini-mcp-server",
   "version": "1.0.0",
   "description": "MCP server wrapping gemini CLI for Claude Code integration",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethan-tsai-tsai/gemini-mcp-server.git"
+  },
   "type": "module",
   "main": "src/index.js",
   "bin": {
@@ -16,7 +20,10 @@
     "gemini",
     "claude-code"
   ],
-  "author": "",
+  "author": "ethan-tsai",
+  "files": [
+    "src/"
+  ],
   "license": "ISC",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.28.0",

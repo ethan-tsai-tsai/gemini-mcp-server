@@ -9,6 +9,7 @@
   <a href="https://github.com/ethan-tsai-tsai/gemini-mcp-server/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ethan-tsai-tsai/gemini-mcp-server" alt="License" /></a>
   <a href="https://github.com/ethan-tsai-tsai/gemini-mcp-server/stargazers"><img src="https://img.shields.io/github/stars/ethan-tsai-tsai/gemini-mcp-server" alt="Stars" /></a>
   <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-18+-green.svg" alt="Node 18+" /></a>
+  <a href="https://www.npmjs.com/package/@ethantsaitsai/gemini-mcp-server"><img src="https://img.shields.io/npm/v/@ethantsaitsai/gemini-mcp-server" alt="npm" /></a>
 </p>
 
 ---
@@ -39,26 +40,18 @@ A local MCP server that wraps the [`gemini` CLI](https://github.com/google-gemin
 ## Prerequisites
 
 - Node.js 18+
-- [Gemini CLI](https://github.com/google-gemini/gemini-cli) installed and authenticated (`npm install -g @anthropic-ai/gemini-cli` or similar)
+- [Gemini CLI](https://github.com/google-gemini/gemini-cli) installed and authenticated
 
 ## Quick Start
 
-```bash
-git clone https://github.com/ethan-tsai-tsai/gemini-mcp-server.git
-cd gemini-mcp-server
-npm install
-```
-
-### Configuration
-
-Add to your MCP client config:
+No cloning needed — just add to your MCP client config:
 
 ```json
 {
   "mcpServers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
@@ -67,20 +60,42 @@ Add to your MCP client config:
 <details>
 <summary><strong>Claude Code</strong></summary>
 
-Add to your project's `.mcp.json`:
+Run:
+
+```bash
+claude mcp add gemini -- npx -y @ethantsaitsai/gemini-mcp-server
+```
+
+Or add to your project's `.mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
 ```
 
-Or run: `claude mcp add gemini -- node /absolute/path/to/gemini-mcp-server/src/index.js`
+</details>
+
+<details>
+<summary><strong>Gemini CLI</strong></summary>
+
+Add to `~/.gemini/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "gemini": {
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
+    }
+  }
+}
+```
 
 </details>
 
@@ -93,8 +108,8 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 {
   "mcpServers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
@@ -111,8 +126,8 @@ Go to **Cursor Settings > MCP > Add new MCP Server**, then add:
 {
   "mcpServers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
@@ -129,8 +144,8 @@ Add to `.vscode/mcp.json` in your workspace:
 {
   "servers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
@@ -147,11 +162,23 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 {
   "mcpServers": {
     "gemini": {
-      "command": "node",
-      "args": ["/absolute/path/to/gemini-mcp-server/src/index.js"]
+      "command": "npx",
+      "args": ["-y", "@ethantsaitsai/gemini-mcp-server"]
     }
   }
 }
+```
+
+</details>
+
+<details>
+<summary><strong>From source (alternative)</strong></summary>
+
+```bash
+git clone https://github.com/ethan-tsai-tsai/gemini-mcp-server.git
+cd gemini-mcp-server
+npm install
+npm start
 ```
 
 </details>
