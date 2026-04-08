@@ -22,6 +22,8 @@ A local MCP server that wraps the [`gemini` CLI](https://github.com/google-gemin
 - Analyze an entire codebase directory in one shot
 - Get a second-opinion code review from a different model
 - Process huge logs or data files that exceed comfortable context limits
+- Search the web for up-to-date information via Google Search grounding
+- Review a PR or branch diff automatically without manual copy-paste
 
 ## MCP Tools
 
@@ -30,7 +32,9 @@ A local MCP server that wraps the [`gemini` CLI](https://github.com/google-gemin
 | `gemini_query` | Send a prompt to Gemini with optional file context |
 | `gemini_summarize` | Summarize a file or entire directory/codebase |
 | `gemini_analyze` | Deep analysis of codebase structure, patterns, and issues |
-| `gemini_review` | Code review with actionable feedback |
+| `gemini_review` | Code review with actionable feedback (manual diff/files) |
+| `gemini_search` | Web search with Google Search grounding — get current info with source citations |
+| `gemini_pr_review` | Git-aware PR/branch review — auto-fetches diff and commit history |
 
 ## Prerequisites
 
@@ -169,6 +173,8 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
 │  Cursor...) │   gemini_summarize() │              │                    │              │
 │             │   gemini_analyze()   │              │                    │              │
 │             │   gemini_review()    │              │                    │              │
+│             │   gemini_search()    │              │                    │              │
+│             │   gemini_pr_review() │              │                    │              │
 └─────────────┘                      └──────────────┘                    └─────────────┘
 ```
 
