@@ -34,6 +34,7 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
   return new Promise((resolve) => {
     let stdout = '';
     let stderr = '';
+    let settled = false;
 
     const child = spawn(config.geminiCliPath, args, {
       signal: ac.signal,
@@ -45,6 +46,8 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
     child.stderr.on('data', (chunk) => { stderr += chunk.toString(); });
 
     child.on('error', (err) => {
+      if (settled) return;
+      settled = true;
       clearTimeout(timer);
       if (err.name === 'AbortError' || ac.signal.aborted) {
         resolve({
@@ -62,6 +65,8 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
     });
 
     child.on('close', (code) => {
+      if (settled) return;
+      settled = true;
       clearTimeout(timer);
 
       if (stderr) {
@@ -87,10 +92,12 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
       resolve({ success: true, output: clean });
     });
 
-    // Pipe stdin content if provided, then close stdin
+    // Pipe stdin content if provided, then close stdin.
+    // Use callback to ensure large payloads are flushed before closing.
     if (stdinContent) {
-      child.stdin.write(stdinContent);
+      child.stdin.write(stdinContent, () => child.stdin.end());
+    } else {
+      child.stdin.end();
     }
-    child.stdin.end();
   });
 }

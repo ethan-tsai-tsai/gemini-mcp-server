@@ -64,6 +64,16 @@ export async function handler({ file_paths, diff, review_focus, model }) {
       };
     }
 
+    if (file_paths?.length && diff) {
+      return {
+        content: [{
+          type: 'text',
+          text: 'Error: Provide either file_paths or diff, not both.',
+        }],
+        isError: true,
+      };
+    }
+
     let stdinContent = '';
 
     if (diff) {

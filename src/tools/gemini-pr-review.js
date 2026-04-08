@@ -1,7 +1,7 @@
 import * as z from 'zod/v4';
 import { spawn } from 'node:child_process';
 import { readFile } from 'node:fs/promises';
-import { basename } from 'node:path';
+import { basename, join } from 'node:path';
 import { runGemini } from '../lib/gemini-runner.js';
 import { sanitizePath, isBinaryFile } from '../lib/sanitize.js';
 
@@ -36,9 +36,8 @@ export const config = {
       ),
     repo_path: z
       .string()
-      .optional()
       .describe(
-        'Absolute path to the git repository. Defaults to current working directory.'
+        'Absolute path to the git repository. REQUIRED — always provide the project root path.'
       ),
     include_file_content: z
       .boolean()
@@ -83,11 +82,17 @@ function runGit(args, cwd) {
     child.stdout.on('data', (chunk) => { stdout += chunk.toString(); });
     child.stderr.on('data', (chunk) => { stderr += chunk.toString(); });
 
+    let settled = false;
+
     child.on('error', (err) => {
+      if (settled) return;
+      settled = true;
       resolve({ success: false, output: '', error: err.message });
     });
 
     child.on('close', (code) => {
+      if (settled) return;
+      settled = true;
       if (code !== 0) {
         resolve({ success: false, output: stdout, error: stderr.trim() });
       } else {
@@ -109,7 +114,15 @@ export async function handler({
   model,
 }) {
   try {
-    const cwd = repo_path ? await sanitizePath(repo_path) : process.cwd();
+    // Validate git refs to prevent flag injection
+    if (base.startsWith('-') || head.startsWith('-')) {
+      return {
+        content: [{ type: 'text', text: 'Error: base and head must be git refs, not flags.' }],
+        isError: true,
+      };
+    }
+
+    const cwd = await sanitizePath(repo_path);
 
     // Get the diff
     const diffResult = await runGit(
@@ -167,7 +180,7 @@ export async function handler({
           if (isBinaryFile(basename(relPath))) continue;
 
           try {
-            const fullPath = await sanitizePath(`${cwd}/${relPath}`);
+            const fullPath = await sanitizePath(join(cwd, relPath));
             const content = await readFile(fullPath, 'utf-8');
             parts.push(`--- ${relPath} ---\n${content}`);
           } catch {

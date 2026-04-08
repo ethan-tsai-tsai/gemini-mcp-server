@@ -14,7 +14,7 @@ Node.js MCP server wrapping `gemini` CLI, enabling Claude Code to delegate token
 - `npm test` — Run tests with vitest
 
 ## Development Rules
-See `guild.md` for strict rules. Key points:
+Key points:
 - **NEVER use `console.log`** — stdout is reserved for JSON-RPC. Use `console.error` for all debug/logging.
 - **Prevent command injection** — Use `spawn`/`execFile`, never `exec`. Validate all paths and inputs.
 - **Graceful errors** — Catch all errors, return MCP-formatted error responses. Never crash.
