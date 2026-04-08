@@ -28,11 +28,14 @@ src/
     config.js           # Environment variable config
     sanitize.js         # Input validation & sanitization
     gemini-runner.js    # Core gemini CLI wrapper
+    collect-files.js    # Recursive file collection
   tools/
     gemini-query.js     # General-purpose query
     gemini-summarize.js # File/directory summarization
     gemini-analyze.js   # Deep codebase analysis
-    gemini-review.js    # Code review
+    gemini-review.js    # Code review (manual diff/files)
+    gemini-search.js    # Web search with Google grounding
+    gemini-pr-review.js # Git-aware PR/branch review
 ```
 
 ## Environment Variables

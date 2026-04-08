@@ -7,6 +7,8 @@ import * as geminiQuery from './tools/gemini-query.js';
 import * as geminiSummarize from './tools/gemini-summarize.js';
 import * as geminiAnalyze from './tools/gemini-analyze.js';
 import * as geminiReview from './tools/gemini-review.js';
+import * as geminiSearch from './tools/gemini-search.js';
+import * as geminiPrReview from './tools/gemini-pr-review.js';
 
 // --- Server Initialization ---
 
@@ -17,7 +19,7 @@ const server = new McpServer({
 
 // --- Tool Registration ---
 
-const tools = [geminiQuery, geminiSummarize, geminiAnalyze, geminiReview];
+const tools = [geminiQuery, geminiSummarize, geminiAnalyze, geminiReview, geminiSearch, geminiPrReview];
 
 for (const tool of tools) {
   server.tool(
