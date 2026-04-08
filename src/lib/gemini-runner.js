@@ -22,9 +22,14 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
   const selectedModel = model || config.model;
   const timeout = timeoutMs || config.timeoutMs;
 
+  // On Windows with shell:true, args are concatenated without escaping.
+  // Wrap prompt and model in double quotes to prevent splitting on spaces.
+  const isWin = process.platform === 'win32';
+  const q = (s) => isWin ? `"${s.replace(/"/g, '\\"')}"` : s;
+
   const args = [
-    '-p', prompt,
-    '-m', selectedModel,
+    '-p', q(prompt),
+    '-m', q(selectedModel),
     '-o', 'text',
   ];
 
@@ -39,6 +44,7 @@ export async function runGemini({ prompt, stdinContent, model, timeoutMs }) {
       signal: ac.signal,
       stdio: ['pipe', 'pipe', 'pipe'],
       env: { ...process.env },
+      shell: process.platform === 'win32',
     });
 
     child.stdout.on('data', (chunk) => { stdout += chunk.toString(); });
